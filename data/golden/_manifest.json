@@ -1,0 +1,110 @@
+{
+  "account_status_derive": {
+    "authoritative": true,
+    "captured_at": "2026-07-30T23:28:15.351514+00:00",
+    "columns": [
+      "account_id",
+      "status",
+      "tier",
+      "days_since_activity"
+    ],
+    "duration_ms": 96.43,
+    "rows": 300,
+    "runner": "perl-subprocess",
+    "sha256": "30c150d3b469fe271516a6c8a1b6b55e924d55a48f843dca0a860fb80a5d18ef",
+    "status": "captured"
+  },
+  "customer_dedupe": {
+    "authoritative": true,
+    "captured_at": "2026-07-30T23:28:15.049516+00:00",
+    "columns": [
+      "customer_id",
+      "norm_name",
+      "dob",
+      "dup_count"
+    ],
+    "duration_ms": 113.37,
+    "rows": 300,
+    "runner": "perl-subprocess",
+    "sha256": "e8e7f0d20217c255b5688729844e01e839195a9c6c0f52ed6bcbf9aad3e8a68b",
+    "status": "captured"
+  },
+  "fx_revenue_calc": {
+    "authoritative": true,
+    "captured_at": "2026-07-30T23:28:15.251887+00:00",
+    "columns": [
+      "channel",
+      "currency",
+      "txn_count",
+      "total_usd",
+      "total_commission"
+    ],
+    "duration_ms": 73.94,
+    "rows": 24,
+    "runner": "perl-subprocess",
+    "sha256": "29e25b60c7259fac7a0b186ac0aa8877be22fa62654b015b14be8e6300c0c0e8",
+    "status": "captured"
+  },
+  "legacy_oracle_balances": {
+    "authoritative": false,
+    "captured_at": "2026-07-30T23:28:15.488282+00:00",
+    "columns": [
+      "account_id",
+      "customer_last_name",
+      "product_name",
+      "balance",
+      "activity_month"
+    ],
+    "duration_ms": 24.95,
+    "rows": 234,
+    "runner": "perl-semantics-reference",
+    "sha256": "082382a53a1a21c760655718ba3ef268ed22e24d0eb68c337c475c16960285a1",
+    "status": "captured"
+  },
+  "legacy_teradata_ranking": {
+    "authoritative": false,
+    "captured_at": "2026-07-30T23:28:15.522463+00:00",
+    "columns": [
+      "customer_id",
+      "currency",
+      "txn_count",
+      "total_amount",
+      "currency_rank"
+    ],
+    "duration_ms": 28.49,
+    "rows": 30,
+    "runner": "perl-semantics-reference",
+    "sha256": "e6dbcc72a3b386cf1e8c49250f09aad59503ec435f2c1f01faa38763b4a4e665",
+    "status": "captured"
+  },
+  "null_handling_report": {
+    "authoritative": true,
+    "captured_at": "2026-07-30T23:28:15.456377+00:00",
+    "columns": [
+      "record_id",
+      "field_count",
+      "populated_fields",
+      "completeness_pct"
+    ],
+    "duration_ms": 101.18,
+    "rows": 500,
+    "runner": "perl-subprocess",
+    "sha256": "cfd88dc2789a650f07893ae8f21cf2bd8ecdd64363bf3b441c719b680238c882",
+    "status": "captured"
+  },
+  "txn_daily_agg": {
+    "authoritative": true,
+    "captured_at": "2026-07-30T23:28:15.170923+00:00",
+    "columns": [
+      "settlement_date",
+      "currency",
+      "txn_count",
+      "total_amount"
+    ],
+    "duration_ms": 115.24,
+    "rows": 565,
+    "runner": "perl-subprocess",
+    "sha256": "3abdfcc994b3313916af8eaa3e34f9159ed318b8fb019fc0eeee9c633e860645",
+    "status": "captured"
+  }
+}

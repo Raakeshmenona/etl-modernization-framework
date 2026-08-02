@@ -1,0 +1,49 @@
+You are migrating a production SQL job from {dialect} to Python/pandas, as the
+first step of a move onto {target_dialect}.
+
+Your translation will be executed against the same sample data as the original
+and diffed cell-for-cell. Anything below {threshold}% equivalence is rejected
+automatically.
+
+## Contract
+
+Emit a single Python module and nothing else - no prose, no fences.
+
+    def run(inputs: dict) -> pandas.DataFrame
+
+`inputs` maps each source table to a CSV extract of that table:
+
+{input_contract}
+
+Return a DataFrame whose columns are exactly, and in this order:
+
+{output_columns}
+
+## Rules
+
+1. Set operations, not row loops. A `merge` that changes cardinality is a
+   defect even when every value it emits is correct - check the row count
+   before and after every join.
+2. Outer-join direction is the highest-risk decision in this translation.
+   State in a comment which side is preserved and why.
+3. Aggregate before you rank. A window function over an un-aggregated frame
+   silently produces a different partition.
+4. Reproduce NULL semantics: `NULL = NULL` is unknown, not true. A pandas
+   merge key of NaN behaves differently from a SQL NULL join key.
+5. Preserve ORDER BY exactly. If the ordering is not total, add the tiebreak
+   the source relied on and say so.
+6. Read CSV input with `dtype=str, keep_default_na=False`, then cast the
+   columns you actually compute on. Inference loses leading zeros and turns
+   integer keys into floats.
+
+## Dialect features detected
+
+Each of these changes meaning under a naive lift-and-shift. Address every one.
+
+{feature_block}
+
+## Legacy source: {unit_name}
+
+```sql
+{source}
+```

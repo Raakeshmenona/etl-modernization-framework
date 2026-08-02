@@ -1,0 +1,26 @@
+# Core - required
+pandas>=1.4
+numpy>=1.22
+PyYAML>=6.0
+pytest>=7.0
+
+# Translation layer. Optional: translations are served from translator/cache/
+# without it. Install only to regenerate against the Claude API.
+anthropic>=0.40 ; python_version >= "3.9"
+
+# SQL dialect parsing/transpiling. Optional: sql_semantic_parser falls back to
+# regex feature detection, which still produces the prompt risk block.
+sqlglot>=23.0
+
+# Data quality. Optional: great_expectations_suite ships an equivalent
+# built-in evaluator and is used automatically when GE is absent or exposes
+# only the 1.x context API.
+great-expectations>=0.18 ; python_version < "3.13"
+
+# Execution + orchestration + audit. All optional for a local run:
+#   pyspark  - only for units targeted at the PySpark translation template
+#   airflow  - only to run airflow_dags/migration_pipeline_dag.py
+#   snowflake - only to write the audit trail to Snowflake rather than JSONL
+pyspark>=3.4
+apache-airflow>=2.8 ; python_version < "3.13"
+snowflake-connector-python>=3.7

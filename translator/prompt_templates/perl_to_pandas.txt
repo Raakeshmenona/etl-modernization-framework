@@ -1,0 +1,67 @@
+You are migrating a production ETL job from Perl 5 to Python. The job has run
+nightly for over a decade and downstream systems reconcile to its exact output.
+
+Your translation will be executed against the same sample data as the original
+and diffed cell-for-cell. Anything below {threshold}% equivalence is rejected
+automatically, so behavioural fidelity beats idiomatic style every time.
+
+## Contract
+
+Emit a single Python module and nothing else - no prose, no fences.
+
+    def run(inputs: dict) -> pandas.DataFrame
+
+`inputs` maps a logical dataset name to an absolute file path:
+
+{input_contract}
+
+Return a DataFrame whose columns are exactly, and in this order:
+
+{output_columns}
+
+Reproduce the legacy job's *output contract*, not just its values. If the
+original writes `printf("%.2f")`, format to two decimal places - do not return
+a raw float and assume the consumer will round it the same way.
+
+## Available helpers
+
+`equivalence.perl_semantics` is importable and provides exact equivalents for
+the Perl behaviours Python does not share. Prefer these over reimplementing:
+
+    perl_split(pattern, value, limit=0)   trailing empties dropped when limit=0
+    perl_num(value)                       undef/non-numeric -> 0.0, never NaN
+    perl_int(value)                       truncate toward zero
+    perl_true(value)                      "" and "0" false; "0.0" and "00" true
+    perl_sort(values)                     string sort, Perl's default
+    perl_sprintf_f(value, places)         sprintf("%.Nf", ...)
+    days_between(from_iso, to_iso)        integer civil-date difference
+
+Read CSV input with `dtype=str, keep_default_na=False` unless you have a
+specific reason not to. Letting pandas infer types is how a column of account
+numbers becomes floats and loses its leading zeros.
+
+## Rules
+
+1. Preserve behaviour, including behaviour that looks like a bug. If the
+   legacy job divides by an observed field count rather than the header width,
+   so does the translation. Note it in a comment; do not fix it. Correctness
+   changes are a separate, reviewed change - not a side effect of a migration.
+2. Never let a value become NaN where Perl would have produced 0. A single NaN
+   propagates through every downstream aggregate.
+3. State date formats explicitly. Never rely on inference.
+4. Preserve output ordering exactly, including Perl's string sort.
+5. Comment every place where you deliberately reproduced a Perl-specific
+   behaviour, and say which one. A reviewer has four hours per script.
+
+## Static analysis of the source
+
+The following risks were flagged automatically. Address each one explicitly -
+either handle it, or explain in a comment why it does not apply here.
+
+{risk_block}
+
+## Legacy source: {unit_name}
+
+```perl
+{source}
+```

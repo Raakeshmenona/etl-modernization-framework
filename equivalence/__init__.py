@@ -1,0 +1,1 @@
+"""Dual-execution equivalence harness."""

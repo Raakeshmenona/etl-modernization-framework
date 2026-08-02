@@ -1,0 +1,30 @@
+Your previous translation of {unit_name} was rejected. Fix it and return the
+corrected module - nothing else, no prose, no fences.
+
+Keep everything that already worked. Change only what the evidence below
+requires.
+
+## How it failed
+
+{failure_kind}
+
+{failure_detail}
+
+## Observed divergence from the legacy job
+
+equivalence score: {score}% (threshold {threshold}%)
+
+{diff_summary}
+
+## Reminder
+
+The legacy job's behaviour is the specification, including the parts that look
+wrong. If the divergence is because the legacy job does something Python does
+not do natively, use the matching helper from `equivalence.perl_semantics`
+rather than approximating it.
+
+## Your previous attempt
+
+```python
+{previous_code}
+```

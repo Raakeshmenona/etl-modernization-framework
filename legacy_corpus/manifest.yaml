@@ -1,0 +1,104 @@
+# Inventory of the legacy ETL estate under migration.
+#
+# One entry per translation unit. `depends_on` is the operational ordering the
+# nightly scheduler enforces today; dependency_mapper.py rebuilds the same DAG
+# from the scripts themselves and reconciles the two.
+#
+# key_columns  - used to align legacy and translated output row-for-row before
+#                diffing. Without a key the differ falls back to positional
+#                comparison, which is far weaker evidence of equivalence.
+# tolerance    - absolute tolerance for numeric columns. Anything above 0 is a
+#                policy decision and shows up in the audit log.
+
+version: 1
+
+units:
+  - name: customer_dedupe
+    path: perl/customer_dedupe.pl
+    language: perl
+    owner: mdm-platform
+    criticality: high
+    inputs:
+      customers: customers.csv
+    output_columns: [customer_id, norm_name, dob, dup_count]
+    key_columns: [customer_id]
+    tolerance: 0.0
+    depends_on: []
+
+  - name: txn_daily_agg
+    path: perl/txn_daily_agg.pl
+    language: perl
+    owner: payments-eng
+    criticality: high
+    inputs:
+      transactions: transactions.csv
+    output_columns: [settlement_date, currency, txn_count, total_amount]
+    key_columns: [settlement_date, currency]
+    tolerance: 0.005
+    depends_on: []
+
+  - name: fx_revenue_calc
+    path: perl/fx_revenue_calc.pl
+    language: perl
+    owner: treasury-reporting
+    criticality: critical
+    inputs:
+      transactions: transactions.csv
+      fx_rates: fx_rates.csv
+    output_columns: [channel, currency, txn_count, total_usd, total_commission]
+    key_columns: [channel, currency]
+    tolerance: 0.005
+    depends_on: [txn_daily_agg]
+
+  - name: account_status_derive
+    path: perl/account_status_derive.pl
+    language: perl
+    owner: risk-reporting
+    criticality: critical
+    inputs:
+      accounts: accounts.csv
+    output_columns: [account_id, status, tier, days_since_activity]
+    key_columns: [account_id]
+    tolerance: 0.0
+    depends_on: [customer_dedupe]
+
+  - name: null_handling_report
+    path: perl/null_handling_report.pl
+    language: perl
+    owner: data-quality
+    criticality: medium
+    inputs:
+      raw_feed: raw_feed.psv
+    output_columns: [record_id, field_count, populated_fields, completeness_pct]
+    key_columns: [record_id]
+    tolerance: 0.05
+    depends_on: []
+
+  - name: legacy_oracle_balances
+    path: sql/legacy_oracle_balances.sql
+    language: sql
+    dialect: oracle
+    target_dialect: snowflake
+    owner: finance-mart
+    criticality: high
+    inputs:
+      accounts: accounts.csv
+      customers: customers.csv
+    output_columns: [account_id, customer_last_name, product_name, balance, activity_month]
+    key_columns: [account_id]
+    tolerance: 0.005
+    depends_on: [customer_dedupe]
+
+  - name: legacy_teradata_ranking
+    path: sql/legacy_teradata_ranking.sql
+    language: sql
+    dialect: teradata
+    target_dialect: snowflake
+    owner: finance-mart
+    criticality: medium
+    inputs:
+      transactions: transactions.csv
+    output_columns: [customer_id, currency, txn_count, total_amount, currency_rank]
+    key_columns: [customer_id, currency]
+    tolerance: 0.005
+    depends_on: [txn_daily_agg]

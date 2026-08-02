@@ -1,0 +1,176 @@
+# Azure DevOps CI/CD - LLM-Augmented Legacy ETL Modernization Framework
+#
+# Stages: Lint -> Test -> EquivalenceGate -> Promote (main only)
+#
+# The EquivalenceGate stage is the point of the pipeline. Nothing reaches the
+# Promote stage until every translation has been executed against the legacy
+# behaviour and scored above the threshold, so a translation that "looks right"
+# in review cannot reach production on that basis alone.
+
+trigger:
+  branches:
+    include: [main, develop]
+  paths:
+    exclude: [README.md, powerbi/*, reports/*]
+
+pr:
+  branches:
+    include: [main]
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  pythonVersion: "3.11"
+  equivalenceThreshold: "99.0"
+
+stages:
+  # ------------------------------------------------------------------ #
+  - stage: Lint
+    displayName: Static checks
+    jobs:
+      - job: lint
+        steps:
+          - task: UsePythonVersion@0
+            inputs: {versionSpec: "$(pythonVersion)"}
+          - script: |
+              python -m pip install --upgrade pip
+              pip install ruff==0.4.4
+              ruff check config.py migration_pipeline.py parsers translator \
+                          equivalence cicd reporting data scripts tests
+            displayName: ruff
+
+          - script: |
+              pip install -r requirements.txt
+              python -m translator.translation_validator
+            displayName: validate generated translations (static gate)
+
+  # ------------------------------------------------------------------ #
+  - stage: Test
+    displayName: Unit tests
+    dependsOn: Lint
+    jobs:
+      - job: pytest
+        steps:
+          - task: UsePythonVersion@0
+            inputs: {versionSpec: "$(pythonVersion)"}
+          - script: |
+              pip install -r requirements.txt
+              python data/generate_sample_data.py
+            displayName: generate sample corpus
+
+          - script: |
+              pytest tests -v --junitxml=junit/unit-tests.xml \
+                     --cov=equivalence --cov=parsers --cov=translator \
+                     --cov-report=xml
+            displayName: pytest + coverage
+
+          - task: PublishTestResults@2
+            inputs: {testResultsFiles: "junit/unit-tests.xml", testRunTitle: "Unit tests"}
+            condition: succeededOrFailed()
+          - task: PublishCodeCoverageResults@2
+            inputs: {summaryFileLocation: coverage.xml}
+
+  # ------------------------------------------------------------------ #
+  - stage: EquivalenceGate
+    displayName: Dual-execution equivalence gate
+    dependsOn: Test
+    jobs:
+      - job: gate
+        steps:
+          - task: UsePythonVersion@0
+            inputs: {versionSpec: "$(pythonVersion)"}
+
+          # ubuntu-latest ships Perl 5, so CI scores against the real legacy
+          # interpreter rather than a replayed snapshot. If a future image
+          # drops it, the harness falls back to data/golden/ automatically and
+          # LEGACY_AUTHORITATIVE goes false in the audit log - which is the
+          # signal reviewers use, so the build does not need to fail here.
+          - script: |
+              perl -v | head -2 || echo "no perl - the gate will replay golden snapshots"
+            displayName: report legacy runtime
+
+          - script: |
+              pip install -r requirements.txt
+              python data/generate_sample_data.py
+              python data/capture_golden.py
+            displayName: rebuild sample corpus and golden snapshots
+
+          - script: |
+              python -m cicd.equivalence_gate \
+                     --threshold $(equivalenceThreshold) \
+                     --junit junit/equivalence.xml
+            displayName: equivalence gate (exit 1 below threshold)
+
+          # Regression suites are generated from the same run and must pass on
+          # every unit that cleared. A unit that scores 100% but fails its own
+          # generated regression means the two disagree - always a framework
+          # bug, never something to wave through.
+          - script: |
+              python - <<'PY'
+              import json, pathlib, subprocess, sys
+              report = json.loads(pathlib.Path("reports/equivalence_report.json").read_text())
+              cleared = [u["unit"] for u in report["units"] if u["passed"]]
+              paths = ["generated/regression/test_%s_regression.py" % u for u in cleared]
+              sys.exit(subprocess.call([sys.executable, "-m", "pytest", "-q",
+                                        "--junitxml=junit/regression.xml", *paths]))
+              PY
+            displayName: generated regression suites (cleared units)
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFiles: "junit/*.xml"
+              testRunTitle: "Equivalence gate"
+              mergeTestResults: true
+            condition: succeededOrFailed()
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: reports
+              artifact: equivalence-report
+            displayName: publish equivalence report
+            condition: succeededOrFailed()
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: generated/regression
+              artifact: generated-regression-suites
+            condition: succeededOrFailed()
+
+  # ------------------------------------------------------------------ #
+  - stage: Promote
+    displayName: Promote cleared units + publish audit trail
+    dependsOn: EquivalenceGate
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: promote
+        environment: etl-migration-prod      # gated with manual approval
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: UsePythonVersion@0
+                  inputs: {versionSpec: "$(pythonVersion)"}
+
+                - download: current
+                  artifact: equivalence-report
+
+                - script: |
+                    pip install -r requirements.txt snowflake-connector-python
+                    python reporting/snowflake_migration_log.py \
+                           --report $(Pipeline.Workspace)/equivalence-report/equivalence_report.json \
+                           --promote
+                  displayName: write audit trail + record promotions
+                  env:
+                    SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
+                    SNOWFLAKE_USER: $(SNOWFLAKE_SVC_USER)
+                    SNOWFLAKE_PASSWORD: $(SNOWFLAKE_SVC_PASSWORD)
+                    MIGRATION_REVIEWER: $(Build.RequestedFor)
+
+                - script: |
+                    az storage blob upload-batch \
+                       --destination airflow-dags \
+                       --source airflow_dags --overwrite
+                  displayName: publish Airflow DAG
+                  condition: succeeded()

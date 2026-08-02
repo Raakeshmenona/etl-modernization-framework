@@ -1,0 +1,326 @@
+customer_id,first_name,last_name,dob,email,phone,status
+1,Kwame,OKAFOR,1957-03-30,kwame.okafor@example.com,+1-555-4506,ACTIVE
+2,aisha,Lindqvist,1964-03-12,aisha.lindqvist@example.com,+1-555-8935,ACTIVE
+3,Lucia,Mbeki,1957-11-07,lucia.mbeki@example.com,+1-555-0488,ACTIVE
+4,aisha,  Rossi ,2000-05-03,aisha.rossi@example.com,+1-555-9863,ACTIVE
+5,Dmitri,  Rossi ,2003-11-21,dmitri.rossi@example.com,+1-555-6873,ACTIVE
+6,Amara,Haddad,1979-12-16,amara.haddad@example.com,+1-555-0106,ACTIVE
+7,Yuki,Mbeki,1985-07-11,yuki.mbeki@example.com,+1-555-4552,ACTIVE
+8,aisha,de Souza,1964-03-03,aisha.desouza@example.com,+1-555-1519,CLOSED
+9,Priya,de Souza,1985-11-09,priya.desouza@example.com,+1-555-9891,ACTIVE
+10,Tomas,sharma,1996-03-20,tomas.sharma@example.com,+1-555-8785,ACTIVE
+11,Omar,Mbeki,1962-01-26,omar.mbeki@example.com,+1-555-9044,ACTIVE
+12,Nadia,Petrov,1987-06-12,nadia.petrov@example.com,+1-555-9459,ACTIVE
+13,Yuki,OKAFOR,1959-02-10,yuki.okafor@example.com,+1-555-3733,ACTIVE
+14,Priya,  Rossi ,1964-01-23,priya.rossi@example.com,+1-555-6227,ACTIVE
+15,Amara,Petrov,1987-09-24,amara.petrov@example.com,+1-555-2664,ACTIVE
+16,sofia,  Rossi ,1978-12-14,sofia.rossi@example.com,+1-555-1169,ACTIVE
+17,Dmitri,Nakamura,1976-12-17,dmitri.nakamura@example.com,+1-555-2677,CLOSED
+18,Chen,Zhang,1974-09-14,chen.zhang@example.com,+1-555-5313,ACTIVE
+19,aisha,sharma,1983-04-20,aisha.sharma@example.com,+1-555-6572,ACTIVE
+20,Priya,  Rossi ,1983-03-26,priya.rossi@example.com,+1-555-3483,CLOSED
+21,Chen,Petrov,1996-03-01,chen.petrov@example.com,+1-555-2340,ACTIVE
+22,JOHN,  Rossi ,2003-05-10,john.rossi@example.com,+1-555-4304,CLOSED
+23,Omar,Haddad,1990-10-31,omar.haddad@example.com,+1-555-5930,ACTIVE
+24,JOHN,Novak,1999-04-11,john.novak@example.com,+1-555-1489,ACTIVE
+25,Nadia,OKAFOR,1968-09-17,nadia.okafor@example.com,+1-555-2621,CLOSED
+26,Lucia,OKAFOR,1989-07-09,lucia.okafor@example.com,+1-555-6252,CLOSED
+27,Dmitri,Zhang,2004-08-19,dmitri.zhang@example.com,+1-555-0188,ACTIVE
+28,Kwame,Novak,1978-12-09,kwame.novak@example.com,+1-555-5573,ACTIVE
+29,Mikael,Mbeki,1969-03-10,mikael.mbeki@example.com,+1-555-7433,ACTIVE
+30,Yuki,Nakamura,1978-08-18,yuki.nakamura@example.com,+1-555-8201,ACTIVE
+31,Dmitri,OKAFOR,1981-10-10,dmitri.okafor@example.com,+1-555-8317,ACTIVE
+32,JOHN,de Souza,1969-06-29,john.desouza@example.com,+1-555-8837,ACTIVE
+33,Lucia,de Souza,1998-11-01,lucia.desouza@example.com,+1-555-0319,ACTIVE
+34,Omar,de Souza,1982-08-03,omar.desouza@example.com,+1-555-3923,ACTIVE
+35,aisha,Haddad,1962-01-24,aisha.haddad@example.com,+1-555-1403,CLOSED
+36,Nadia,OKAFOR,2002-10-16,nadia.okafor@example.com,+1-555-2060,ACTIVE
+37,Kwame,Tanaka,2004-04-28,kwame.tanaka@example.com,+1-555-2705,ACTIVE
+38,Dmitri,Haddad,1992-12-17,dmitri.haddad@example.com,+1-555-3470,ACTIVE
+39,Yuki,Zhang,1990-10-18,yuki.zhang@example.com,+1-555-6118,CLOSED
+40,Omar,Novak,1995-07-04,omar.novak@example.com,+1-555-1982,ACTIVE
+41,aisha,OKAFOR,1985-05-01,aisha.okafor@example.com,+1-555-0344,ACTIVE
+42,Lucia,  Rossi ,1955-08-24,lucia.rossi@example.com,+1-555-1163,ACTIVE
+43,aisha,OKAFOR,1957-10-26,aisha.okafor@example.com,+1-555-5413,ACTIVE
+44,Dmitri,  Rossi ,1979-12-26,dmitri.rossi@example.com,+1-555-7953,ACTIVE
+45,Dmitri,Lindqvist,1997-05-28,dmitri.lindqvist@example.com,+1-555-3981,CLOSED
+46,Tomas,Mbeki,1972-01-31,tomas.mbeki@example.com,+1-555-1545,ACTIVE
+47,Kwame,Mbeki,1986-10-14,kwame.mbeki@example.com,+1-555-6939,CLOSED
+48,Amara,Nakamura,1959-11-11,amara.nakamura@example.com,+1-555-1612,ACTIVE
+49,Chen,Nakamura,1985-06-10,chen.nakamura@example.com,+1-555-1790,ACTIVE
+50,aisha,  Rossi ,2003-02-11,aisha.rossi@example.com,+1-555-7350,ACTIVE
+51,Chen,Lindqvist,1979-12-28,chen.lindqvist@example.com,+1-555-7579,ACTIVE
+52,Nadia,OKAFOR,1994-10-03,nadia.okafor@example.com,+1-555-9016,ACTIVE
+53,ravi,Petrov,2003-07-01,ravi.petrov@example.com,+1-555-0241,ACTIVE
+54,Omar,  Rossi ,1969-12-02,omar.rossi@example.com,+1-555-6658,CLOSED
+55,Amara,  Rossi ,1990-12-24,amara.rossi@example.com,+1-555-0960,ACTIVE
+56,Chen,sharma,1990-01-10,chen.sharma@example.com,+1-555-4345,CLOSED
+57,Mikael,Mbeki,2004-11-10,mikael.mbeki@example.com,+1-555-7973,ACTIVE
+58,aisha,Zhang,1974-07-13,aisha.zhang@example.com,+1-555-0958,ACTIVE
+59,Yuki,de Souza,1960-02-17,yuki.desouza@example.com,+1-555-0821,CLOSED
+60,Dmitri,Novak,1969-02-14,dmitri.novak@example.com,+1-555-0931,ACTIVE
+61,Nadia,Lindqvist,1961-02-23,nadia.lindqvist@example.com,+1-555-9749,ACTIVE
+62,Kwame,  Rossi ,1991-03-23,kwame.rossi@example.com,+1-555-1964,ACTIVE
+63,Lucia,Haddad,1958-07-26,lucia.haddad@example.com,+1-555-1343,CLOSED
+64,Kwame,Haddad,2001-11-25,kwame.haddad@example.com,+1-555-5183,ACTIVE
+65,aisha,Petrov,1983-03-10,aisha.petrov@example.com,+1-555-3910,ACTIVE
+66,Chen,Lindqvist,1981-11-30,chen.lindqvist@example.com,+1-555-7491,ACTIVE
+67,Omar,OKAFOR,1955-11-02,omar.okafor@example.com,+1-555-7508,ACTIVE
+68,Priya,Novak,1974-02-14,priya.novak@example.com,+1-555-8288,ACTIVE
+69,JOHN,de Souza,1961-03-04,john.desouza@example.com,+1-555-4002,ACTIVE
+70,Mikael,Lindqvist,1994-04-24,mikael.lindqvist@example.com,+1-555-8900,ACTIVE
+71,Lucia,Petrov,2002-06-15,lucia.petrov@example.com,+1-555-0128,ACTIVE
+72,Omar,Petrov,1964-04-17,omar.petrov@example.com,+1-555-2200,ACTIVE
+73,Priya,OKAFOR,2004-08-19,priya.okafor@example.com,+1-555-2546,ACTIVE
+74,Mikael,Haddad,1973-11-23,mikael.haddad@example.com,+1-555-5617,ACTIVE
+75,Kwame,Petrov,1978-09-07,kwame.petrov@example.com,+1-555-8280,CLOSED
+76,Mikael,sharma,1963-04-13,mikael.sharma@example.com,+1-555-6939,ACTIVE
+77,ravi,sharma,1984-12-03,ravi.sharma@example.com,+1-555-2143,ACTIVE
+78,JOHN,Nakamura,1994-08-22,john.nakamura@example.com,+1-555-9038,CLOSED
+79,Dmitri,sharma,1965-01-13,dmitri.sharma@example.com,+1-555-1232,ACTIVE
+80,Dmitri,sharma,1988-02-15,dmitri.sharma@example.com,+1-555-9543,ACTIVE
+81,Chen,Lindqvist,1958-10-02,chen.lindqvist@example.com,+1-555-5050,ACTIVE
+82,Omar,sharma,1987-02-06,omar.sharma@example.com,+1-555-3441,ACTIVE
+83,Kwame,OKAFOR,1986-09-24,kwame.okafor@example.com,+1-555-9173,CLOSED
+84,Lucia,Nakamura,1968-11-12,lucia.nakamura@example.com,+1-555-3878,ACTIVE
+85,Tomas,Lindqvist,1991-12-28,tomas.lindqvist@example.com,+1-555-0406,ACTIVE
+86,Yuki,de Souza,1991-12-09,yuki.desouza@example.com,+1-555-4065,ACTIVE
+87,JOHN,Nakamura,1964-09-12,john.nakamura@example.com,+1-555-6267,ACTIVE
+88,Nadia,Tanaka,1974-12-15,nadia.tanaka@example.com,+1-555-3269,CLOSED
+89,sofia,Zhang,1975-06-02,sofia.zhang@example.com,+1-555-3652,ACTIVE
+90,Kwame,  Rossi ,1990-09-30,kwame.rossi@example.com,+1-555-5378,ACTIVE
+91,Nadia,OKAFOR,1980-01-16,nadia.okafor@example.com,+1-555-5753,CLOSED
+92,Kwame,Novak,1984-09-16,kwame.novak@example.com,+1-555-0452,ACTIVE
+93,Omar,Zhang,1971-01-08,omar.zhang@example.com,+1-555-9512,ACTIVE
+94,ravi,OKAFOR,1993-12-26,ravi.okafor@example.com,+1-555-5663,ACTIVE
+95,Chen,Haddad,2000-11-18,chen.haddad@example.com,+1-555-1894,CLOSED
+96,Omar,Haddad,1972-01-20,omar.haddad@example.com,+1-555-4173,ACTIVE
+97,Yuki,Mbeki,1955-02-25,yuki.mbeki@example.com,+1-555-8518,ACTIVE
+98,sofia,Mbeki,1961-04-11,sofia.mbeki@example.com,+1-555-5409,ACTIVE
+99,Kwame,OKAFOR,1981-12-10,kwame.okafor@example.com,+1-555-8308,ACTIVE
+100,Kwame,Mbeki,1984-04-06,kwame.mbeki@example.com,+1-555-6592,ACTIVE
+101,Dmitri,Lindqvist,1972-03-18,dmitri.lindqvist@example.com,+1-555-6888,CLOSED
+102,Kwame,Nakamura,1970-08-12,kwame.nakamura@example.com,+1-555-9324,ACTIVE
+103,Chen,Novak,1955-01-14,chen.novak@example.com,+1-555-4978,ACTIVE
+104,aisha,Mbeki,1983-11-29,aisha.mbeki@example.com,+1-555-7618,CLOSED
+105,Amara,Petrov,1974-03-04,amara.petrov@example.com,+1-555-8375,CLOSED
+106,Tomas,Nakamura,1970-03-23,tomas.nakamura@example.com,+1-555-1389,ACTIVE
+107,Dmitri,Petrov,1985-01-26,dmitri.petrov@example.com,+1-555-1530,ACTIVE
+108,Kwame,Zhang,1975-02-26,kwame.zhang@example.com,+1-555-3262,ACTIVE
+109,ravi,sharma,1976-12-19,ravi.sharma@example.com,+1-555-7784,ACTIVE
+110,Amara,Mbeki,1972-06-11,amara.mbeki@example.com,+1-555-6291,CLOSED
+111,Chen,  Rossi ,1968-03-28,chen.rossi@example.com,+1-555-0090,ACTIVE
+112,Tomas,Mbeki,1974-08-19,tomas.mbeki@example.com,+1-555-2881,CLOSED
+113,ravi,Novak,1977-05-10,ravi.novak@example.com,+1-555-1988,CLOSED
+114,JOHN,Tanaka,2002-08-26,john.tanaka@example.com,+1-555-9157,ACTIVE
+115,Tomas,Tanaka,2000-04-14,tomas.tanaka@example.com,+1-555-6991,CLOSED
+116,Omar,Lindqvist,1997-08-02,omar.lindqvist@example.com,+1-555-7373,ACTIVE
+117,Tomas,  Rossi ,1979-11-17,tomas.rossi@example.com,+1-555-8540,CLOSED
+118,Kwame,  Rossi ,1979-08-21,kwame.rossi@example.com,+1-555-7206,ACTIVE
+119,Yuki,Zhang,1976-01-14,yuki.zhang@example.com,+1-555-4451,ACTIVE
+120,sofia,Novak,1962-03-25,sofia.novak@example.com,+1-555-2267,ACTIVE
+121,aisha,Mbeki,1968-09-16,aisha.mbeki@example.com,+1-555-3505,ACTIVE
+122,Chen,Mbeki,1984-09-07,chen.mbeki@example.com,+1-555-8890,CLOSED
+123,Chen,sharma,1973-07-22,chen.sharma@example.com,+1-555-6883,CLOSED
+124,Omar,Haddad,1956-10-02,omar.haddad@example.com,+1-555-9432,CLOSED
+125,Amara,sharma,1986-07-23,amara.sharma@example.com,+1-555-4892,CLOSED
+126,Nadia,Mbeki,2003-04-15,nadia.mbeki@example.com,+1-555-8947,ACTIVE
+127,Amara,  Rossi ,1979-06-27,amara.rossi@example.com,+1-555-7140,CLOSED
+128,ravi,Mbeki,1985-02-26,ravi.mbeki@example.com,+1-555-6624,ACTIVE
+129,Nadia,Tanaka,1966-06-14,nadia.tanaka@example.com,+1-555-8751,ACTIVE
+130,Omar,Mbeki,1957-06-07,omar.mbeki@example.com,+1-555-1375,CLOSED
+131,JOHN,Tanaka,1971-04-21,john.tanaka@example.com,+1-555-0823,ACTIVE
+132,Chen,de Souza,1973-12-27,chen.desouza@example.com,+1-555-7449,ACTIVE
+133,sofia,Mbeki,1979-12-18,sofia.mbeki@example.com,+1-555-6906,ACTIVE
+134,Nadia,OKAFOR,1997-03-12,nadia.okafor@example.com,+1-555-0317,ACTIVE
+135,sofia,  Rossi ,1961-02-26,sofia.rossi@example.com,+1-555-0659,ACTIVE
+136,aisha,  Rossi ,1956-10-29,aisha.rossi@example.com,+1-555-2496,ACTIVE
+137,JOHN,Tanaka,1965-04-06,john.tanaka@example.com,+1-555-9240,ACTIVE
+138,Amara,Nakamura,1977-12-27,amara.nakamura@example.com,+1-555-6043,ACTIVE
+139,Lucia,Haddad,1965-04-11,lucia.haddad@example.com,+1-555-2683,ACTIVE
+140,Priya,Haddad,1957-04-21,priya.haddad@example.com,+1-555-5111,CLOSED
+141,Chen,Nakamura,1972-10-16,chen.nakamura@example.com,+1-555-1245,ACTIVE
+142,Priya,Nakamura,1982-01-21,priya.nakamura@example.com,+1-555-9837,ACTIVE
+143,Tomas,Haddad,1958-09-07,tomas.haddad@example.com,+1-555-5688,CLOSED
+144,Kwame,de Souza,1961-03-09,kwame.desouza@example.com,+1-555-8289,ACTIVE
+145,ravi,Mbeki,1998-12-23,ravi.mbeki@example.com,+1-555-1729,CLOSED
+146,sofia,Petrov,1996-03-30,sofia.petrov@example.com,+1-555-2506,CLOSED
+147,JOHN,Nakamura,2001-10-22,john.nakamura@example.com,+1-555-4425,CLOSED
+148,Amara,Mbeki,1979-01-29,amara.mbeki@example.com,+1-555-5280,ACTIVE
+149,Nadia,OKAFOR,1980-01-09,nadia.okafor@example.com,+1-555-7385,ACTIVE
+150,Tomas,Tanaka,1988-12-31,tomas.tanaka@example.com,+1-555-5511,ACTIVE
+151,Amara,de Souza,1971-04-25,amara.desouza@example.com,+1-555-7988,ACTIVE
+152,sofia,Zhang,1985-07-14,sofia.zhang@example.com,+1-555-4581,ACTIVE
+153,Dmitri,sharma,2001-05-07,dmitri.sharma@example.com,+1-555-3130,ACTIVE
+154,aisha,Nakamura,1991-06-18,aisha.nakamura@example.com,+1-555-8004,ACTIVE
+155,Yuki,Tanaka,1999-01-13,yuki.tanaka@example.com,+1-555-7342,ACTIVE
+156,Priya,Zhang,1974-11-18,priya.zhang@example.com,+1-555-6625,ACTIVE
+157,Mikael,Petrov,1988-02-09,mikael.petrov@example.com,+1-555-7753,ACTIVE
+158,Chen,Nakamura,2004-05-18,chen.nakamura@example.com,+1-555-5419,ACTIVE
+159,Yuki,Tanaka,1979-04-22,yuki.tanaka@example.com,+1-555-5023,ACTIVE
+160,aisha,OKAFOR,1972-04-11,aisha.okafor@example.com,+1-555-5169,ACTIVE
+161,Yuki,Novak,1971-08-11,yuki.novak@example.com,+1-555-3138,ACTIVE
+162,Yuki,Tanaka,1979-10-22,yuki.tanaka@example.com,+1-555-9659,ACTIVE
+163,Priya,  Rossi ,1981-07-30,priya.rossi@example.com,+1-555-3727,ACTIVE
+164,JOHN,Zhang,1956-04-08,john.zhang@example.com,+1-555-8751,ACTIVE
+165,Mikael,sharma,1959-11-22,mikael.sharma@example.com,+1-555-9066,ACTIVE
+166,Yuki,Lindqvist,1999-01-15,yuki.lindqvist@example.com,+1-555-1680,ACTIVE
+167,Lucia,Zhang,1997-02-10,lucia.zhang@example.com,+1-555-7843,CLOSED
+168,sofia,Lindqvist,1959-08-11,sofia.lindqvist@example.com,+1-555-4136,CLOSED
+169,Priya,OKAFOR,1990-12-13,priya.okafor@example.com,+1-555-8056,ACTIVE
+170,Lucia,Petrov,1959-10-23,lucia.petrov@example.com,+1-555-2485,ACTIVE
+171,Tomas,Haddad,1982-04-05,tomas.haddad@example.com,+1-555-1395,ACTIVE
+172,Priya,Novak,1992-05-03,priya.novak@example.com,+1-555-9933,ACTIVE
+173,Tomas,Novak,1989-02-15,tomas.novak@example.com,+1-555-7381,CLOSED
+174,Mikael,Haddad,1993-06-21,mikael.haddad@example.com,+1-555-5003,ACTIVE
+175,Lucia,Nakamura,1963-11-26,lucia.nakamura@example.com,+1-555-3404,ACTIVE
+176,Mikael,Petrov,1962-04-14,mikael.petrov@example.com,+1-555-2573,ACTIVE
+177,JOHN,Novak,1961-09-25,john.novak@example.com,+1-555-2564,ACTIVE
+178,Chen,Tanaka,1997-02-27,chen.tanaka@example.com,+1-555-4771,ACTIVE
+179,aisha,Zhang,1980-05-13,aisha.zhang@example.com,+1-555-7438,ACTIVE
+180,Kwame,  Rossi ,1978-09-25,kwame.rossi@example.com,+1-555-9663,ACTIVE
+181,Chen,OKAFOR,2003-11-09,chen.okafor@example.com,+1-555-3683,ACTIVE
+182,Omar,Zhang,1967-10-05,omar.zhang@example.com,+1-555-1169,ACTIVE
+183,JOHN,Zhang,1980-11-22,john.zhang@example.com,+1-555-7195,ACTIVE
+184,Amara,Nakamura,1982-04-13,amara.nakamura@example.com,+1-555-6594,ACTIVE
+185,Dmitri,Novak,1999-04-20,dmitri.novak@example.com,+1-555-7172,ACTIVE
+186,Lucia,sharma,1993-10-04,lucia.sharma@example.com,+1-555-5280,ACTIVE
+187,ravi,OKAFOR,1975-07-16,ravi.okafor@example.com,+1-555-9424,ACTIVE
+188,Tomas,Petrov,1979-03-07,tomas.petrov@example.com,+1-555-9441,ACTIVE
+189,Tomas,Lindqvist,1997-03-18,tomas.lindqvist@example.com,+1-555-8502,CLOSED
+190,Omar,Zhang,1971-04-14,omar.zhang@example.com,+1-555-9590,CLOSED
+191,Kwame,Tanaka,1963-03-09,kwame.tanaka@example.com,+1-555-7700,ACTIVE
+192,Chen,de Souza,1983-10-21,chen.desouza@example.com,+1-555-1713,ACTIVE
+193,sofia,Mbeki,1999-06-14,sofia.mbeki@example.com,+1-555-4722,CLOSED
+194,Nadia,Novak,1958-04-17,nadia.novak@example.com,+1-555-7451,ACTIVE
+195,sofia,Zhang,1984-01-02,sofia.zhang@example.com,+1-555-1899,CLOSED
+196,Nadia,Novak,1955-02-07,nadia.novak@example.com,+1-555-8889,CLOSED
+197,Chen,sharma,1971-10-30,chen.sharma@example.com,+1-555-8494,ACTIVE
+198,Lucia,Tanaka,1994-08-28,lucia.tanaka@example.com,+1-555-0845,ACTIVE
+199,Mikael,Novak,1966-10-03,mikael.novak@example.com,+1-555-4719,CLOSED
+200,Omar,Nakamura,1998-06-27,omar.nakamura@example.com,+1-555-1989,ACTIVE
+201,Kwame,Haddad,1976-06-20,kwame.haddad@example.com,+1-555-2594,ACTIVE
+202,Dmitri,sharma,2004-07-18,dmitri.sharma@example.com,+1-555-6684,ACTIVE
+203,aisha,OKAFOR,1996-05-25,aisha.okafor@example.com,+1-555-1924,ACTIVE
+204,Amara,Nakamura,1981-03-08,amara.nakamura@example.com,+1-555-8337,ACTIVE
+205,Chen,Tanaka,1997-05-13,chen.tanaka@example.com,+1-555-3993,CLOSED
+206,Dmitri,Lindqvist,1989-05-31,dmitri.lindqvist@example.com,+1-555-3122,ACTIVE
+207,Nadia,OKAFOR,1979-10-14,nadia.okafor@example.com,+1-555-6798,ACTIVE
+208,Omar,Novak,1978-12-20,omar.novak@example.com,+1-555-0042,ACTIVE
+209,Yuki,Zhang,1998-12-05,yuki.zhang@example.com,+1-555-2434,CLOSED
+210,Dmitri,Tanaka,1985-12-18,dmitri.tanaka@example.com,+1-555-5446,CLOSED
+211,Amara,de Souza,1971-12-04,amara.desouza@example.com,+1-555-3912,CLOSED
+212,aisha,Mbeki,1958-12-01,aisha.mbeki@example.com,+1-555-5213,CLOSED
+213,Yuki,Mbeki,1989-08-21,yuki.mbeki@example.com,+1-555-2492,CLOSED
+214,ravi,Lindqvist,2000-01-24,ravi.lindqvist@example.com,+1-555-9669,ACTIVE
+215,Nadia,OKAFOR,1994-07-02,nadia.okafor@example.com,+1-555-1633,CLOSED
+216,ravi,Nakamura,1967-12-07,ravi.nakamura@example.com,+1-555-6717,ACTIVE
+217,Priya,Tanaka,1978-10-11,priya.tanaka@example.com,+1-555-5546,CLOSED
+218,Kwame,OKAFOR,1984-06-23,kwame.okafor@example.com,+1-555-8742,CLOSED
+219,sofia,Petrov,1998-10-11,sofia.petrov@example.com,+1-555-8864,ACTIVE
+220,Lucia,OKAFOR,1976-01-23,lucia.okafor@example.com,+1-555-4708,ACTIVE
+221,Yuki,OKAFOR,1993-12-07,yuki.okafor@example.com,+1-555-1612,ACTIVE
+222,Amara,Lindqvist,1981-11-12,amara.lindqvist@example.com,+1-555-0474,ACTIVE
+223,sofia,sharma,1981-04-27,sofia.sharma@example.com,+1-555-5873,ACTIVE
+224,Chen,Lindqvist,1976-11-27,chen.lindqvist@example.com,+1-555-8702,CLOSED
+225,Lucia,Petrov,1971-02-26,lucia.petrov@example.com,+1-555-2785,ACTIVE
+226,Priya,Haddad,1989-04-27,priya.haddad@example.com,+1-555-3945,CLOSED
+227,Omar,Haddad,1967-11-03,omar.haddad@example.com,+1-555-3804,CLOSED
+228,Kwame,Zhang,1996-03-25,kwame.zhang@example.com,+1-555-4183,ACTIVE
+229,Omar,Tanaka,1980-10-21,omar.tanaka@example.com,+1-555-8955,ACTIVE
+230,Priya,Tanaka,1986-01-01,priya.tanaka@example.com,+1-555-9626,ACTIVE
+231,Kwame,Mbeki,1977-06-09,kwame.mbeki@example.com,+1-555-7484,ACTIVE
+232,aisha,Mbeki,1998-05-08,aisha.mbeki@example.com,+1-555-1747,ACTIVE
+233,Chen,Haddad,1987-03-16,chen.haddad@example.com,+1-555-9417,ACTIVE
+234,Yuki,Zhang,1956-12-19,yuki.zhang@example.com,+1-555-6484,ACTIVE
+235,ravi,Haddad,1959-05-27,ravi.haddad@example.com,+1-555-9935,CLOSED
+236,Nadia,Zhang,1975-08-24,nadia.zhang@example.com,+1-555-9946,ACTIVE
+237,aisha,Petrov,1972-01-22,aisha.petrov@example.com,+1-555-4106,ACTIVE
+238,Kwame,OKAFOR,1958-07-15,kwame.okafor@example.com,+1-555-5061,CLOSED
+239,ravi,Haddad,1987-09-25,ravi.haddad@example.com,+1-555-2153,ACTIVE
+240,Omar,Zhang,1984-04-23,omar.zhang@example.com,+1-555-6807,ACTIVE
+241,aisha,Lindqvist,2003-05-24,aisha.lindqvist@example.com,+1-555-5994,ACTIVE
+242,Nadia,Lindqvist,1978-01-20,nadia.lindqvist@example.com,+1-555-7894,ACTIVE
+243,Yuki,de Souza,1965-05-01,yuki.desouza@example.com,+1-555-7673,ACTIVE
+244,JOHN,  Rossi ,1990-08-27,john.rossi@example.com,+1-555-9131,ACTIVE
+245,Priya,Mbeki,1956-04-01,priya.mbeki@example.com,+1-555-4332,ACTIVE
+246,Amara,de Souza,1978-07-09,amara.desouza@example.com,+1-555-9577,CLOSED
+247,Nadia,Petrov,1988-04-29,nadia.petrov@example.com,+1-555-1775,ACTIVE
+248,Amara,sharma,1984-06-05,amara.sharma@example.com,+1-555-9995,ACTIVE
+249,Kwame,OKAFOR,1996-08-26,kwame.okafor@example.com,+1-555-4951,CLOSED
+250,Priya,Lindqvist,1959-01-25,priya.lindqvist@example.com,+1-555-0609,ACTIVE
+251,Amara,OKAFOR,1963-09-20,amara.okafor@example.com,+1-555-3846,ACTIVE
+252,Chen,Tanaka,1988-04-14,chen.tanaka@example.com,+1-555-8850,CLOSED
+253,Lucia,Nakamura,1968-11-11,lucia.nakamura@example.com,+1-555-6797,ACTIVE
+254,Nadia,Tanaka,1991-08-13,nadia.tanaka@example.com,+1-555-4583,ACTIVE
+255,Yuki,de Souza,1974-06-29,yuki.desouza@example.com,+1-555-7264,CLOSED
+256,aisha,de Souza,1963-11-30,aisha.desouza@example.com,+1-555-6018,ACTIVE
+257,ravi,Mbeki,1979-10-02,ravi.mbeki@example.com,+1-555-3109,ACTIVE
+258,Nadia,Tanaka,1963-03-23,nadia.tanaka@example.com,+1-555-3475,ACTIVE
+259,ravi,de Souza,1976-11-07,ravi.desouza@example.com,+1-555-2063,ACTIVE
+260,Priya,Novak,1973-08-02,priya.novak@example.com,+1-555-9607,ACTIVE
+261,Nadia,  Rossi ,1984-06-23,nadia.rossi@example.com,+1-555-2417,ACTIVE
+262,Mikael,Lindqvist,1966-08-30,mikael.lindqvist@example.com,+1-555-8850,ACTIVE
+263,Tomas,Lindqvist,1964-11-11,tomas.lindqvist@example.com,+1-555-0422,ACTIVE
+264,ravi,de Souza,1976-05-06,ravi.desouza@example.com,+1-555-9647,ACTIVE
+265,ravi,Lindqvist,1978-10-22,ravi.lindqvist@example.com,+1-555-0858,ACTIVE
+266,Yuki,Mbeki,2002-03-13,yuki.mbeki@example.com,+1-555-1862,ACTIVE
+267,Amara,Tanaka,1987-06-25,amara.tanaka@example.com,+1-555-8408,ACTIVE
+268,Amara,Novak,1974-11-16,amara.novak@example.com,+1-555-0710,ACTIVE
+269,Amara,Petrov,1957-10-17,amara.petrov@example.com,+1-555-0996,CLOSED
+270,Nadia,Mbeki,1993-03-30,nadia.mbeki@example.com,+1-555-1768,CLOSED
+271,Yuki,Tanaka,1961-08-05,yuki.tanaka@example.com,+1-555-1323,ACTIVE
+272,Lucia,Lindqvist,1960-11-22,lucia.lindqvist@example.com,+1-555-2067,ACTIVE
+273,Lucia,Petrov,2004-03-12,lucia.petrov@example.com,+1-555-5327,CLOSED
+274,Lucia,Novak,1981-06-16,lucia.novak@example.com,+1-555-7433,CLOSED
+275,Priya,Nakamura,1965-04-07,priya.nakamura@example.com,+1-555-9033,ACTIVE
+276,Chen,Tanaka,1975-07-02,chen.tanaka@example.com,+1-555-6779,ACTIVE
+277,Nadia,Tanaka,1990-10-09,nadia.tanaka@example.com,+1-555-6815,ACTIVE
+278,sofia,Mbeki,1983-01-14,sofia.mbeki@example.com,+1-555-4176,ACTIVE
+279,JOHN,Petrov,1997-07-19,john.petrov@example.com,+1-555-1099,ACTIVE
+280,Nadia,OKAFOR,1963-05-13,nadia.okafor@example.com,+1-555-7075,ACTIVE
+281,Yuki,Nakamura,1988-06-06,yuki.nakamura@example.com,+1-555-2131,ACTIVE
+282,Lucia,Novak,1984-07-28,lucia.novak@example.com,+1-555-2002,CLOSED
+283,sofia,Petrov,1992-12-10,sofia.petrov@example.com,+1-555-0842,ACTIVE
+284,Lucia,Zhang,1986-07-19,lucia.zhang@example.com,+1-555-1697,ACTIVE
+285,JOHN,Petrov,1998-04-05,john.petrov@example.com,+1-555-3674,ACTIVE
+286,sofia,Novak,1987-12-23,sofia.novak@example.com,+1-555-1882,ACTIVE
+287,Lucia,  Rossi ,1993-07-01,lucia.rossi@example.com,+1-555-9190,ACTIVE
+288,Lucia,Petrov,1978-12-29,lucia.petrov@example.com,+1-555-0474,ACTIVE
+289,Mikael,Nakamura,1982-09-20,mikael.nakamura@example.com,+1-555-5567,ACTIVE
+290,ravi,Lindqvist,1967-11-08,ravi.lindqvist@example.com,+1-555-9278,CLOSED
+291,Priya,Lindqvist,1957-10-01,priya.lindqvist@example.com,+1-555-1503,ACTIVE
+292,Chen,Mbeki,1995-09-13,chen.mbeki@example.com,+1-555-5585,ACTIVE
+293,sofia,Zhang,1984-02-07,sofia.zhang@example.com,+1-555-9299,ACTIVE
+294,Omar,sharma,1968-12-16,omar.sharma@example.com,+1-555-2579,ACTIVE
+295,Kwame,OKAFOR,1979-05-31,kwame.okafor@example.com,+1-555-7259,CLOSED
+296,Amara,Haddad,1994-08-28,amara.haddad@example.com,+1-555-6785,ACTIVE
+297,aisha,Novak,1965-03-18,aisha.novak@example.com,+1-555-5655,CLOSED
+298,Priya,Zhang,1998-08-28,priya.zhang@example.com,+1-555-8633,ACTIVE
+299,ravi,  Rossi ,1990-06-17,ravi.rossi@example.com,+1-555-9819,ACTIVE
+300,ravi,  Rossi ,1982-01-15,ravi.rossi@example.com,+1-555-3460,ACTIVE
+301,  JOHN ,tanaka  ,1971-04-21,john.tanaka@example.com,+1-555-0823,ACTIVE
+302,  NADIA ,okafor  ,1980-01-09,nadia.okafor@example.com,+1-555-7385,ACTIVE
+303,  SOFIA ,lindqvist  ,1959-08-11,sofia.lindqvist@example.com,+1-555-4136,CLOSED
+304,  KWAME ,  rossi   ,1991-03-23,kwame.rossi@example.com,+1-555-1964,ACTIVE
+305,  AISHA ,  rossi   ,2000-05-03,aisha.rossi@example.com,+1-555-9863,ACTIVE
+306,  YUKI ,de souza  ,1974-06-29,yuki.desouza@example.com,+1-555-7264,CLOSED
+307,  YUKI ,okafor  ,1993-12-07,yuki.okafor@example.com,+1-555-1612,ACTIVE
+308,  KWAME ,  rossi   ,1990-09-30,kwame.rossi@example.com,+1-555-5378,ACTIVE
+309,  OMAR ,okafor  ,1955-11-02,omar.okafor@example.com,+1-555-7508,ACTIVE
+310,  SOFIA ,zhang  ,1984-01-02,sofia.zhang@example.com,+1-555-1899,CLOSED
+311,  LUCIA ,petrov  ,2004-03-12,lucia.petrov@example.com,+1-555-5327,CLOSED
+312,  KWAME ,  rossi   ,1979-08-21,kwame.rossi@example.com,+1-555-7206,ACTIVE
+313,  RAVI ,mbeki  ,1979-10-02,ravi.mbeki@example.com,+1-555-3109,ACTIVE
+314,  LUCIA ,  rossi   ,1993-07-01,lucia.rossi@example.com,+1-555-9190,ACTIVE
+315,  OMAR ,zhang  ,1967-10-05,omar.zhang@example.com,+1-555-1169,ACTIVE
+316,  KWAME ,tanaka  ,2004-04-28,kwame.tanaka@example.com,+1-555-2705,ACTIVE
+317,  AMARA ,nakamura  ,1981-03-08,amara.nakamura@example.com,+1-555-8337,ACTIVE
+318,  JOHN ,  rossi   ,2003-05-10,john.rossi@example.com,+1-555-4304,CLOSED
+319,  CHEN ,lindqvist  ,1976-11-27,chen.lindqvist@example.com,+1-555-8702,CLOSED
+320,  TOMAS ,sharma  ,1996-03-20,tomas.sharma@example.com,+1-555-8785,ACTIVE
+321,  NADIA ,zhang  ,1975-08-24,nadia.zhang@example.com,+1-555-9946,ACTIVE
+322,  OMAR ,novak  ,1995-07-04,omar.novak@example.com,+1-555-1982,ACTIVE
+323,  YUKI ,novak  ,1971-08-11,yuki.novak@example.com,+1-555-3138,ACTIVE
+324,  KWAME ,okafor  ,1979-05-31,kwame.okafor@example.com,+1-555-7259,CLOSED
+325,  LUCIA ,okafor  ,1976-01-23,lucia.okafor@example.com,+1-555-4708,ACTIVE

@@ -1,0 +1,52 @@
+You are migrating a production ETL job from Perl 5 to PySpark. Use this target
+only when the unit is marked high-volume in the manifest; everything else stays
+on pandas, where the equivalence harness runs an order of magnitude faster.
+
+Everything in `perl_to_pandas.txt` applies. The differences that matter:
+
+## Contract
+
+    def run(spark, inputs: dict) -> pyspark.sql.DataFrame
+
+Read with an explicit schema. Do not use `inferSchema=True` - it costs a full
+extra pass over the data and it will type a column of zero-padded account
+numbers as an integer.
+
+## Rules that change under Spark
+
+1. **Ordering is not free and not implicit.** A Spark DataFrame has no row
+   order until you `orderBy`. The legacy job's output order is part of its
+   contract, so the final `orderBy` is mandatory, and it must be total - add
+   the tiebreak column explicitly rather than relying on partition order.
+
+2. **Perl's string sort is `col.cast("string")` inside the `orderBy`**, not a
+   post-hoc sort of the collected result. Sorting after `collect()` works on
+   the sample data and falls over the first time the output exceeds driver
+   memory.
+
+3. **Floating-point sums are non-deterministic across partitions.** Addition
+   is not associative in binary floating point, so `sum()` over a repartitioned
+   frame can differ in the last bits from the sequential Perl accumulation.
+   For money, aggregate as `DecimalType(18, 4)` and cast to string at the end.
+   The equivalence harness compares within the unit's declared tolerance, but
+   a tolerance wide enough to absorb partition drift is wide enough to hide a
+   real defect.
+
+4. **`udf` is a last resort.** A Python UDF serialises every row across the
+   JVM boundary and defeats Catalyst. Reach for the built-ins first; if a
+   `perl_semantics` helper is genuinely needed per-row, wrap it in a
+   `pandas_udf`, not a plain `udf`.
+
+5. **Null handling differs again.** Spark propagates null through arithmetic
+   like SQL, not like Perl. Wrap any expression that can see a missing lookup
+   in `coalesce(expr, lit(0))` to reproduce Perl's undef-numifies-to-zero.
+
+## Static analysis of the source
+
+{risk_block}
+
+## Legacy source: {unit_name}
+
+```perl
+{source}
+```

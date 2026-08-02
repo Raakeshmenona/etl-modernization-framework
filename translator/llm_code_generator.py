@@ -1,0 +1,257 @@
+"""Translate legacy source to Python with the Claude API.
+
+The prompt is not just the legacy source. It carries the static analysis from
+`parsers/` - the specific Perl and SQL constructs that change meaning under a
+naive translation - so the model is told what to watch for rather than being
+asked to rediscover it. That is most of the difference between a translation
+that scores 100% and one that scores 80%.
+
+Generation is cache-backed and content-addressed. A translation is regenerated
+only when the legacy source hash changes, which makes CI runs deterministic and
+free, keeps a migration reproducible years later, and means the committed
+translation under `translator/cache/` is the artefact under review - not
+whatever the model happens to emit today.
+
+    python -m translator.llm_code_generator --dry-run          # print prompts
+    python -m translator.llm_code_generator --unit fx_revenue_calc --force
+"""
+from __future__ import annotations
+
+import hashlib
+import logging
+import re
+import sys
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import List, Optional
+
+from config import (EQUIVALENCE_THRESHOLD, PROMPT_DIR, TRANSLATION_CACHE_DIR,
+                    TRANSLATION_MODEL, Unit, load_manifest)
+from parsers import perl_ast_extractor, sql_semantic_parser
+from translator.translation_validator import validate
+
+logger = logging.getLogger(__name__)
+
+MAX_ATTEMPTS = 3
+MAX_TOKENS = 16000
+
+_HEADER_HASH = re.compile(r"^#\s+source_sha256\s+(\w+)\s*$", re.M)
+_FENCE = re.compile(r"^\s*```(?:python)?\s*\n(.*?)\n\s*```\s*$", re.S)
+
+
+@dataclass
+class GenerationOutcome:
+    unit: str
+    code: Optional[str]
+    source: str                 # "cache" | "generated" | "failed"
+    attempts: int = 0
+    model: str = TRANSLATION_MODEL
+    errors: List[str] = None
+
+    def __post_init__(self):
+        if self.errors is None:
+            self.errors = []
+
+
+def source_digest(unit: Unit) -> str:
+    return hashlib.sha256(unit.source_path.read_bytes()).hexdigest()[:16]
+
+
+def cached_translation(unit: Unit) -> Optional[str]:
+    """Return the cached translation if it matches the current source hash."""
+    if not unit.translation_path.exists():
+        return None
+    code = unit.translation_path.read_text(encoding="utf-8")
+    match = _HEADER_HASH.search(code)
+    current = source_digest(unit)
+    if match and match.group(1) != current:
+        logger.warning("[%s] cached translation is STALE (cached %s, source %s) "
+                       "- rerun with --force", unit.name, match.group(1), current)
+        return None
+    return code
+
+
+def _input_contract(unit: Unit) -> str:
+    return "\n".join('    inputs["%s"]  ->  %s' % (name, filename)
+                     for name, filename in unit.inputs.items())
+
+
+def render_prompt(unit: Unit) -> str:
+    """Build the translation prompt, static analysis included."""
+    source = unit.read_source()
+    common = {
+        "unit_name": unit.name,
+        "source": source,
+        "threshold": EQUIVALENCE_THRESHOLD,
+        "input_contract": _input_contract(unit),
+        "output_columns": "\n".join("    %s" % c for c in unit.output_columns),
+    }
+
+    if unit.language == "perl":
+        analysis = perl_ast_extractor.extract(source, unit.name)
+        template = (PROMPT_DIR / "perl_to_pandas.txt").read_text(encoding="utf-8")
+        return template.format(risk_block=analysis.prompt_block(), **common)
+
+    analysis = sql_semantic_parser.parse(source, unit.name,
+                                         unit.dialect or "oracle",
+                                         unit.target_dialect or "snowflake")
+    template = (PROMPT_DIR / "sql_to_snowflake.txt").read_text(encoding="utf-8")
+    return template.format(feature_block=analysis.prompt_block(),
+                           dialect=unit.dialect or "oracle",
+                           target_dialect=unit.target_dialect or "snowflake",
+                           **common)
+
+
+def render_repair_prompt(unit: Unit, previous_code: str, failure_kind: str,
+                         failure_detail: str, score: float, diff_summary: str) -> str:
+    template = (PROMPT_DIR / "repair.txt").read_text(encoding="utf-8")
+    return template.format(unit_name=unit.name,
+                           previous_code=previous_code,
+                           failure_kind=failure_kind,
+                           failure_detail=failure_detail,
+                           score="%.2f" % score,
+                           threshold=EQUIVALENCE_THRESHOLD,
+                           diff_summary=diff_summary)
+
+
+def _strip_fence(text: str) -> str:
+    """Models sometimes wrap output in a fence despite instructions not to."""
+    match = _FENCE.match(text.strip())
+    return match.group(1) if match else text.strip()
+
+
+def _header(unit: Unit, attempt: int, prompt_name: str) -> str:
+    return "\n".join([
+        "# GENERATED by translator/llm_code_generator.py - do not hand-edit.",
+        "#   source        legacy_corpus/%s" % unit.path,
+        "#   source_sha256 %s" % source_digest(unit),
+        "#   model         %s" % TRANSLATION_MODEL,
+        "#   prompt        %s" % prompt_name,
+        "#   attempt       %d of %d" % (attempt, MAX_ATTEMPTS),
+        "#   generated_at  %s" % datetime.now(timezone.utc).isoformat(),
+        "",
+    ])
+
+
+def _call_claude(prompt: str) -> str:
+    """One Claude API call. Streams, because generated modules run long."""
+    try:
+        import anthropic
+    except ImportError as exc:                      # pragma: no cover
+        raise RuntimeError(
+            "the `anthropic` package is not installed. Translations are served "
+            "from translator/cache/ without it; install it only when you need "
+            "to regenerate: pip install anthropic"
+        ) from exc
+
+    client = anthropic.Anthropic()
+    with client.messages.stream(
+        model=TRANSLATION_MODEL,
+        max_tokens=MAX_TOKENS,
+        thinking={"type": "adaptive"},
+        output_config={"effort": "high"},
+        system=("You are a senior data engineer performing a like-for-like ETL "
+                "migration. Behavioural fidelity to the legacy job outranks "
+                "idiomatic style, readability and correctness. You return a "
+                "single Python module and no other text."),
+        messages=[{"role": "user", "content": prompt}],
+    ) as stream:
+        message = stream.get_final_message()
+
+    if message.stop_reason == "refusal":            # pragma: no cover
+        raise RuntimeError("translation refused: %s" % message.stop_details)
+
+    return "".join(block.text for block in message.content if block.type == "text")
+
+
+def generate(unit: Unit, force: bool = False, dry_run: bool = False) -> GenerationOutcome:
+    """Return a validated translation for `unit`, from cache or from Claude."""
+    if not force:
+        cached = cached_translation(unit)
+        if cached is not None:
+            logger.info("[%-24s] cache hit", unit.name)
+            return GenerationOutcome(unit.name, cached, "cache")
+
+    prompt = render_prompt(unit)
+    prompt_name = ("perl_to_pandas.txt" if unit.language == "perl"
+                   else "sql_to_snowflake.txt")
+
+    if dry_run:
+        logger.info("[%-24s] dry run - %d char prompt, no API call",
+                    unit.name, len(prompt))
+        return GenerationOutcome(unit.name, None, "failed",
+                                 errors=["dry run: no code generated"])
+
+    errors: List[str] = []
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            raw = _call_claude(prompt)
+        except Exception as exc:                    # noqa: BLE001
+            logger.error("[%s] generation failed on attempt %d: %s",
+                         unit.name, attempt, exc)
+            return GenerationOutcome(unit.name, None, "failed", attempt,
+                                     errors=errors + [str(exc)])
+
+        code = _header(unit, attempt, prompt_name) + _strip_fence(raw) + "\n"
+        result = validate(code, unit.name, unit.output_columns)
+
+        if result.ok:
+            for warning in result.warnings:
+                logger.warning("[%s] %s", unit.name, warning)
+            TRANSLATION_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            with open(str(unit.translation_path), "w",
+                      encoding="utf-8", newline="\n") as fh:
+                fh.write(code)
+            logger.info("[%-24s] generated on attempt %d -> %s",
+                        unit.name, attempt, unit.translation_path.name)
+            return GenerationOutcome(unit.name, code, "generated", attempt)
+
+        # Static rejection: feed the errors back rather than burning an
+        # execution cycle on code that cannot possibly pass.
+        errors.extend(result.errors)
+        logger.warning("[%s] attempt %d rejected by the validator: %s",
+                       unit.name, attempt, "; ".join(result.errors))
+        prompt = render_repair_prompt(
+            unit, code, "static validation", "\n".join(result.errors),
+            0.0, "not executed - the module was rejected before it ran")
+
+    return GenerationOutcome(unit.name, None, "failed", MAX_ATTEMPTS, errors=errors)
+
+
+def main() -> int:
+    import argparse
+
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--unit", help="translate a single unit by name")
+    ap.add_argument("--force", action="store_true",
+                    help="regenerate even when the cache is current")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="render prompts without calling the API")
+    ap.add_argument("--print-prompt", action="store_true",
+                    help="write the rendered prompt to stdout")
+    args = ap.parse_args()
+
+    failures = []
+    for unit in load_manifest():
+        if args.unit and unit.name != args.unit:
+            continue
+        if args.print_prompt:
+            print("\n%s\n%s\n%s" % ("=" * 78, unit.name, "=" * 78))
+            print(render_prompt(unit))
+            continue
+
+        outcome = generate(unit, force=args.force, dry_run=args.dry_run)
+        if outcome.code is None and not args.dry_run:
+            failures.append(unit.name)
+
+    if failures:
+        logger.error("translation failed for: %s", ", ".join(failures))
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    raise SystemExit(main())
